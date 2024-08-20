@@ -153,7 +153,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2024-08-19 19:55:38
+          2024-08-20 16:23:39
         </span>
         
               <span class="post-tags">
@@ -193,6 +193,11 @@
 <p><img src="/source/imgs/$%7Bfiilename%7D/image-20240819194001773.png" alt="image-20240819194001773"></p>
 <p>接下来就是寻找谁调用了<strong>InvokerTransformer</strong> 类中的 <strong>transform</strong>() 方法，<code>Ctrl+Alt+Shift+F7</code>，选择 <code>All place</code> 查询</p>
 <p><img src="/source/imgs/$%7Bfiilename%7D/image-20240819194717191.png" alt="image-20240819194717191"></p>
+<p>其中 <code>TransformedMap</code> 类中存在 <code>checkSetValue()</code> 方法调用了 <code>transform()</code> 方法</p>
+<p><img src="D:\ToothlessBlog\source\source\imgs${fiilename}\image-20240820161317291.png" alt="image-20240820161317291"></p>
+<p>接下来分析一下<code>checkSetValue()</code>方法。这个方法接收一个 <code>Object value</code> 作为参数，并调用 <code>valueTransformer</code> 的 <code>transform()</code> 方法来转换这个值。在 <code>TransformedMap</code> 的构造方法中，<code>valueTransformer</code> 是作为参数传入的。但是是因为 <code>TransformedMap</code> 的构造方法作用域是 <code>protected</code>，我们需要去找谁调用了 <code>TransformedMap</code> 的构造方法。在 <code>decorate()</code> 静态方法中创建了 <code>TransformedMap</code> 对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Object <span class="title function_">checkSetValue</span><span class="params">(Object value)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> valueTransformer.transform(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="title function_">TransformedMap</span><span class="params">(Map map, Transformer keyTransformer, Transformer valueTransformer)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(map);</span><br><span class="line">        <span class="built_in">this</span>.keyTransformer = keyTransformer;</span><br><span class="line">        <span class="built_in">this</span>.valueTransformer = valueTransformer;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Map <span class="title function_">decorate</span><span class="params">(Map map, Transformer keyTransformer, Transformer valueTransformer)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TransformedMap</span>(map, keyTransformer, valueTransformer);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 
       </div>
       
@@ -208,7 +213,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2024-08-19 19:55:38
+              2024-08-20 16:23:39
             </span>
             
                   <span class="post-tags">
